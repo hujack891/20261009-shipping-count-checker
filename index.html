@@ -76,7 +76,7 @@ function render(){
  let result,hint;
  if(invalidBackend||invalidCount){result={label:'请检查数量',kind:'short'};hint=invalidBackend?'请检查后台输入：退货数不能大于今天总数，数量须为非负整数。':'请检查快递实数，数量须为非负整数。';}
  else if(!expectedReady||!countedReady){result={label:'待填写',kind:'pending'};hint=!expectedReady?'请补齐得物、调货的今天总数和退货数，没有退货请填 0。':'请补齐中通、顺丰的实际数到数量，数到零个请填 0。';}
- else{result=compare(expected,actual);if(result.kind==='ok'){result.label='数量一致';hint='得物应发 + 调货应发 = 中通实数 + 顺丰实数。';}else{hint='实际数到 '+format(actual)+' 个，应发 '+format(expected)+' 个，'+result.label+'。';}}
+ else{result=compare(expected,actual);if(result.kind==='ok'){result.label='数量一致';hint='得物应发 + 调货应发 = 中通实数 + 顺丰实数。';}else{result.label='门口快递'+(actual>expected?'多了':'少了')+format(Math.abs(actual-expected))+'个';hint='实际数到 '+format(actual)+' 个，应发 '+format(expected)+' 个，'+result.label+'。';}}
  const status=$('grandStatus');status.className='checkbadge '+result.kind;status.textContent=result.label;$('grandHint').textContent=hint;
  for(const [carrier,key] of [['zt','countedZt'],['sf','countedSf']])$(carrier+'CountNote').textContent=r[key]===null?'清点后填写，留空表示未清点':'已清点 '+format(r[key])+' 个';
 }
